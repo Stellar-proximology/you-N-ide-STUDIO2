@@ -1,0 +1,137 @@
+{
+  "name": "YOU–N–I–VERSE Studio",
+  "short_name": "Indyverse",
+  "version": "2.2.0-Continuity",
+  "description": "Living creative ecosystem with Presentation Planner (Jupyter notebook export), Continuity Glyphs (cross-device sync), AI Guard Dog, consciousness calibration (Trinity Charts), GAN training, game development, and portable workspace states. Full-stack IDE with consciousness operating system.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1f25",
+  "theme_color": "#22d3bb",
+  "orientation": "any",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["productivity", "development", "utilities"],
+  "screenshots": [
+    {
+      "src": "/screenshots/cosmic-consciousness.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "label": "Cosmic consciousness visualization with 7-layer semantic framework"
+    },
+    {
+      "src": "/screenshots/dashboard.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Dashboard with personalized recommendations"
+    },
+    {
+      "src": "/screenshots/ide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Browser-based code editor"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Launch IDE",
+      "short_name": "IDE",
+      "description": "Full-stack code editor with terminal",
+      "url": "/ide",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Game Creator",
+      "short_name": "Games",
+      "description": "Visual game development studio",
+      "url": "/game-creator",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "GAN Trainer",
+      "short_name": "AI",
+      "description": "Train AI models and GANs",
+      "url": "/gan-trainer",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Trinity Charts",
+      "short_name": "Charts",
+      "description": "Consciousness calibration & Stellar Proximology",
+      "url": "/consciousness-calibrator",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "AI Agents",
+      "short_name": "Agents",
+      "description": "Create and manage AI assistants",
+      "url": "/agents",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "ZIP Studio",
+      "short_name": "ZIP",
+      "description": "Preview, play & manage ZIP files",
+      "url": "/zip-manager",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Presentation Planner",
+      "short_name": "Planner",
+      "description": "Turn code into interactive stories with Jupyter export",
+      "url": "/presentation-planner",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Continuity Glyph",
+      "short_name": "Glyphs",
+      "description": "Portable workspace states with cross-device sync",
+      "url": "/continuity-glyph",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Grove Store",
+      "short_name": "Store",
+      "description": "Download game templates & asset packs",
+      "url": "/grove-store",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "share_target": {
+    "action": "/zip-manager",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "files": [
+        {
+          "name": "zip",
+          "accept": ["application/zip", ".zip"]
+        }
+      ]
+    }
+  }
+}
