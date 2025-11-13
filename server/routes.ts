@@ -1,10 +1,11 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { uploadProjectToGoogleDrive, uploadFileToGoogleDrive } from "./lib/googleDriveService";
+import { uploadProjectToGoogleDrive, uploadFileToGoogleDrive, getUncachableGoogleDriveClient } from "./lib/googleDriveService";
 import { createOrUpdateGitHubRepo } from "./lib/githubService";
 import { importGitHubRepo } from "./lib/githubImportService";
 import { deployToNetlify } from "./lib/netlifyService";
+import { deployToVercel } from "./lib/vercelService";
 import { orchestrateWorldGeneration, checkTokenAvailability, consumeToken } from "./services/world-orchestrator";
 import { ConsciousnessCalibrator, ChartInterpreter, type BirthData } from "./services/chart-calculators";
 import { generateLayeredConsciousnessVoice } from "./services/gan-integrations";
@@ -19,6 +20,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Health check
   app.get("/api/health", (_req, res) => {
     res.json({ status: "ok", service: "YOU-N-I-VERSE Studio API" });
+  });
+
+  app.get("/api/integrations/status", async (_req, res) => {
+    const status = {
+      googleDrive: {
+        connected: false,
+        message: "",
+        account: "",
+      },
+    };
+
+    try {
+      const drive = await getUncachableGoogleDriveClient();
+      const about = await drive.about.get({ fields: "user(displayName,emailAddress)" });
+      status.googleDrive.connected = true;
+      status.googleDrive.account = about.data.user?.emailAddress || about.data.user?.displayName || "linked";
+    } catch (error: any) {
+      status.googleDrive.connected = false;
+      status.googleDrive.message = error.message || "Google Drive not connected";
+    }
+
+    res.json(status);
   });
 
   // ========== Transit & Growth Program API ==========
@@ -491,8 +514,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error: any) {
       console.error("Netlify deployment error:", error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: error.message || "Failed to deploy to Netlify"
+      });
+    }
+  });
+
+  app.post("/api/deploy/vercel", async (req, res) => {
+    try {
+      const { token, files, projectName } = req.body;
+
+      if (!token || !files || !Array.isArray(files)) {
+        return res.status(400).json({ error: "Invalid request body" });
+      }
+
+      const result = await deployToVercel(token, files, projectName);
+
+      res.json({
+        success: true,
+        url: result.url,
+        deploymentId: result.deploymentId,
+        inspectUrl: result.inspectUrl,
+      });
+    } catch (error: any) {
+      console.error("Vercel deployment error:", error);
+      res.status(500).json({
+        error: error.message || "Failed to deploy to Vercel"
       });
     }
   });

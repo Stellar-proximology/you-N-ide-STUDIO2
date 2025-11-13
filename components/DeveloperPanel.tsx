@@ -3,13 +3,14 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { FolderTree, Code2, Globe, Play, Save, Plus, Trash2, X, Menu, Sparkles, Download, Cloud, Github, Upload, MoreVertical, Store, Terminal as TerminalIcon, FileText, FolderOpen, Copy, Scissors, ClipboardPaste, Search, RotateCcw, RotateCw, Maximize, Moon, Sun, Bot, Brain, Gamepad2, Rocket } from "lucide-react";
+import { FolderTree, Code2, Globe, Play, Save, Plus, Trash2, X, Menu, Sparkles, Download, Cloud, Github, Upload, MoreVertical, Store, Terminal as TerminalIcon, FileText, FolderOpen, Copy, Scissors, ClipboardPaste, Search, RotateCcw, RotateCw, Maximize, Moon, Sun, Bot, Brain, Gamepad2, Rocket, Wrench } from "lucide-react";
 import { GlyphGenerator, detectDimension } from "@/lib/glyphGenerator";
 import JSZip from "jszip";
 import { FileSystem, type FileNode } from "@/lib/fileSystem";
 import { useToast } from "@/hooks/use-toast";
 import { Terminal } from "@/components/Terminal";
 import { SelfEditor } from "@/components/SelfEditor";
+import { FixDeployWorkbench } from "@/components/FixDeployWorkbench";
 import { WorkspaceOrganizer } from "@/components/WorkspaceOrganizer";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import {
@@ -67,6 +68,7 @@ export function DeveloperPanel() {
   const [showTerminal, setShowTerminal] = useState(false);
   const [showSelfEditor, setShowSelfEditor] = useState(false);
   const [showWorkspace, setShowWorkspace] = useState(false);
+  const [fixWorkbenchOpen, setFixWorkbenchOpen] = useState(false);
   const { toast} = useToast();
 
   useEffect(() => {
@@ -1867,8 +1869,10 @@ const result = await handlePayment({
   return (
     <div className="h-screen flex flex-col bg-background">
       {/* VS Code-style Menu Bar */}
-      <div className="border-b bg-background/95 overflow-x-auto">
-        <Menubar className="border-0 rounded-none h-9 px-2 flex-nowrap min-w-max">
+      <div className="border-b bg-background/95">
+        <div className="flex items-center justify-between gap-2 px-2">
+          <div className="flex-1 overflow-x-auto">
+            <Menubar className="border-0 rounded-none h-9 px-2 flex-nowrap min-w-max">
           {/* File Menu */}
           <MenubarMenu>
             <MenubarTrigger className="text-sm cursor-pointer">File</MenubarTrigger>
@@ -2244,7 +2248,18 @@ const result = await handlePayment({
               </MenubarItem>
             </MenubarContent>
           </MenubarMenu>
-        </Menubar>
+            </Menubar>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="shrink-0 gap-2"
+            onClick={() => setFixWorkbenchOpen(true)}
+          >
+            <Wrench className="h-4 w-4" />
+            Fix & Deploy
+          </Button>
+        </div>
       </div>
 
       <div className="border-b p-2 flex items-center justify-between gap-2">
@@ -2622,6 +2637,15 @@ const result = await handlePayment({
           <Cloud className="h-4 w-4" />
         </Button>
       </div>
+
+      <FixDeployWorkbench
+        open={fixWorkbenchOpen}
+        onOpenChange={setFixWorkbenchOpen}
+        currentFile={currentFile}
+        currentCode={code}
+        onApplyCode={setCode}
+        onFileModified={handleFileModified}
+      />
     </div>
   );
 }
